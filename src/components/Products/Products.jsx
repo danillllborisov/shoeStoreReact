@@ -4,12 +4,9 @@ import { Grid } from '@material-ui/core';
 import Product from './Product/Product';
 import useStyles from './styles';
 
-const products = [
-    {id:1, name: 'Addidas', description: 'Rinning Shoes', price: '$5', image: 'https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy,c_fill,g_auto/7ed0855435194229a525aad6009a0497_9366/Superstar_Shoes_White_EG4958_01_standard.jpg'},
-    {id:2, name: 'Rebook', description: 'Rinning Shoes', price: '$10', image: 'http://airmaxcheap4sale.com/8447-large_default/Reebok-Shoes-Real-Or-Fake-Reebok-Answer-X-Pump-Real-carbon-perfect-air-pump-Reebok-Insta-pump-Fury.jpg'},
-];
 
-const Products = () => {
+
+const Products = ({ products }) => {
 const classes = useStyles();
 return(
 <main className={classes.content}>

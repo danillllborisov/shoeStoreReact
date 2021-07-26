@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { commerce } from './lib/commerce';
 
-import { Products, Navbar, Cart} from './components'
+import { Products, Navbar, Cart, Checkout} from './components'
 
 const App = () => {
     const [products, setProducts] = useState([]);
@@ -14,11 +14,7 @@ const App = () => {
         setCart(await commerce.cart.retrieve());
       };
 
-    const handleAddToCart = async (productId, quantity) => {
-        const item = await commerce.cart.add(productId, quantity);
-
-        setCart(item.cart);
-    }
+    
 
     const fetchProducts = async () => {
         const { data } = await commerce.products.list();
@@ -26,6 +22,29 @@ const App = () => {
         setProducts(data);
     }
 
+    const handleAddToCart = async (productId, quantity) => {
+        const { cart } = await commerce.cart.add(productId, quantity);
+
+        setCart(cart);
+    }
+
+    const handleUpdateCartQty = async(productId, quantity) => {
+        const { cart } = await commerce.cart.update(productId, { quantity });
+
+        setCart(cart);
+    }
+
+    const handleRemoveFromCart = async (lineItemId) => {
+        const response = await commerce.cart.remove(lineItemId);
+    
+        setCart(response.cart);
+      };
+    
+      const handleEmptyCart = async () => {
+        const response = await commerce.cart.empty();
+    
+        setCart(response.cart);
+      };
 
 
     useEffect(() => {
@@ -46,7 +65,15 @@ const App = () => {
                     </Route>
 
                     <Route exact path="/cart">
-                        <Cart cart={cart}/>
+                        <Cart 
+                        cart={cart}
+                        handleUpdateCartQty = {handleUpdateCartQty}
+                        handleRemoveFromCart = {handleRemoveFromCart}
+                        handleEmptyCart = {handleEmptyCart}
+                        />
+                    </Route>
+                    <Route exact path="/checkout">
+                        <Checkout cart={cart} />
                     </Route>
 
 
